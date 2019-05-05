@@ -1,0 +1,365 @@
+package game1;
+import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+import javax.swing.WindowConstants;
+
+public class Game1 extends JComponent implements ActionListener, MouseMotionListener, KeyListener {
+
+   TextArea ta;
+   
+   //BALL
+    private int ballx1 = 200;//INITIAL X COMPONENT OF BALL 1
+    private int bally1 = 0;//INITIAL Y COMPONENT OF BALL 1
+    
+    private int ballx2=400;
+    private int bally2=0;
+    
+    private int ballx3=300;
+    private int bally3=0;
+    
+    private int ballx4=100;
+    private int bally4=0;
+    
+    private int ballx5=500;
+    private int bally5=0;
+    
+    //BAT
+    private int batx = 0;//X COMPONENT OF BAT 
+    private int baty = 0;//Y COMPONENT OF BAT
+    
+    //BALL SPEED
+    private int bally1Speed = 10;//INITIAL X SPEED COMPONENT OF BALL 1
+    private int ballx1Speed = 6;//INITIAL Y SPEED COMPONENT OF BALL 1
+    
+    private int bally2Speed = 4;
+    private int ballx2Speed = 8;
+    
+    private int bally3Speed = 9;
+    private int ballx3Speed = 5;
+    
+    private int bally4Speed = 4;
+    private int ballx4Speed = 7;
+    
+    private int bally5Speed = 8;
+    private int ballx5Speed = 5;
+    
+    public boolean gameOver, started;
+    static TextArea t;
+JFrame f;
+    public static void main(String[] args) {
+
+        
+        JFrame obj = new JFrame("Dodge");
+        Game1 g = new Game1();
+//        t=new TextArea();
+//        obj.add(t);
+//        t.setBounds(10,10,100,100);
+        obj.add(g);
+        obj.pack();
+        obj.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        obj.setLocationRelativeTo(null);
+        obj.setVisible(true);
+        obj.addMouseMotionListener(g);
+        
+        
+
+        Timer tt = new Timer(17, g);
+        tt.start();
+
+    }
+
+   /* public void newball(int ballx, int bally, int ballxspeed, int ballyspeed) {
+
+        ballx = 150;
+        bally = 30;
+        ballxspeed = 10;
+        ballyspeed = 10;
+
+        JOptionPane.showMessageDialog(null, "new ball !");
+
+        return;
+    }*/
+
+    @Override
+    public Dimension getPreferredSize() {
+
+        return new Dimension(800, 600);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        
+        
+      if(gameOver)
+          
+      {
+          f=new JFrame();
+          JOptionPane.showMessageDialog(f,"Game Over");
+      }
+              //draw the sky
+        g.setColor(Color.white);
+        g.fillRect(0, 0, 800, 600);
+
+        //g.setColor(Color.GREEN);
+        //g.fillRect(0, 550, 800, 100);
+
+        //draw the BAT
+        g.setColor(Color.blue);
+        g.fillOval(batx, baty, 35,35 );
+
+        //DRAW FIRST BALL
+        g.setColor(Color.RED);
+        g.fillRoundRect(ballx1, bally1, 30, 30, 10, 10);
+        //DRAW SECOND BALL
+        g.setColor(Color.YELLOW);
+        g.fillRoundRect(ballx2, bally2, 30, 30, 10, 10);
+        //DRAW THID BALL
+        g.setColor(Color.GREEN);
+        g.fillRoundRect(ballx3, bally3, 30, 30, 10, 10);
+        //DRAW FOURTH BALL
+        g.setColor(Color.ORANGE);
+        g.fillRoundRect(ballx4, bally4, 30, 30, 10, 10);
+        //DRAW FIFTH BALL
+        g.setColor(Color.darkGray);
+        g.fillRoundRect(ballx5, bally5, 30, 30, 10, 10);
+       
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) 
+    {
+        batx=e.getX();
+        baty=e.getY();
+     
+        repaint();    
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {}
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) 
+    { }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    
+        ballx1 = ballx1 + ballx1Speed;
+        bally1 = bally1 + bally1Speed;
+        
+        ballx2 = ballx2 + ballx2Speed;
+        bally2 = bally2 + bally2Speed;
+        
+        ballx3 = ballx3 + ballx3Speed;
+        bally3 = bally3 + bally3Speed;
+        
+        ballx4 = ballx4 + ballx4Speed;
+        bally4 = bally4 + bally4Speed;
+        
+        ballx5 = ballx5 + ballx5Speed;
+        bally5 = bally5 + bally5Speed;
+       
+//     t.append("batx="+batx+"baty"+baty);  
+//t.append("ballx1="+ballx1+"bally1="+bally1);
+//t.append("ballx2="+ballx2+"bally1="+bally2);
+//t.append("ballx3="+ballx3+"bally1="+bally3);
+//t.append("ballx4="+ballx4+"bally1="+bally4);
+//t.append("ballx5="+ballx5+"bally1="+bally5);
+
+
+                                                 //THE FIRST BALL 
+        //when the ball hits on the top border
+          if (bally1 >= 570 && bally1 <= 800 ) 
+          {
+            bally1Speed = -5;   
+          }
+         //when the ball bounces from the bat
+        if (bally1 <= 0) 
+        {
+            bally1Speed = 5;
+        }
+         //when the ball hits the right border
+        if (ballx1 >= 775) 
+        {
+            ballx1Speed = -4;
+        }
+        //when the ball hits the left border
+        if (ballx1 <= 0) 
+        {
+             ballx1Speed = 6;
+        }
+         //when ball hits the bat
+           if(ballx1<=batx+20 &&ballx1>=batx-20 && bally1<=baty+20 && bally1>=baty-20)
+           {
+               
+               gameOver = true;
+               f=new JFrame();
+          JOptionPane.showMessageDialog(f,"Game Over");
+            System.exit(0);
+               return;
+           }
+        
+           
+     
+           
+
+                                                //THE SECOND BALL
+                                                
+           //when the ball hits on the top and bottom border
+          if (bally2 >= 570 && bally2 <= 800 ) 
+          {
+            bally2Speed = -4;   
+          }
+         //when the ball bounces from the bat
+        if (bally2 <= 0) 
+        {
+            bally2Speed = 6;
+        }
+         //when the ball hits the right border
+        if (ballx2 >= 775) 
+        {
+            ballx2Speed = -5;
+        }
+        //when the ball hits the left border
+        if (ballx2 <= 0) 
+        {
+             ballx2Speed = 7;
+        }
+          //when ball hits the bat    
+           if(ballx2<=batx+20 &&ballx2>=batx-20 && bally2<=baty+20 && bally2>=baty-20)
+           {
+               
+              gameOver = true; 
+              f=new JFrame();
+          JOptionPane.showMessageDialog(f,"Game Over");
+          System.exit(0);
+            f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+           }
+           
+                                                        //THIRD BALL
+           
+         //when the ball hits on the top and bottom border
+          if (bally3 >= 570 && bally3 <= 800 ) 
+          {
+            bally3Speed = -5;   
+          }
+         //when the ball hits the top border
+        if (bally3 <= 0) 
+        {
+            bally3Speed = 4;
+        }
+         //when the ball hits the right border
+        if (ballx3 >= 775) 
+        {
+            ballx3Speed = -7;
+        }
+        //when the ball hits the left border
+        if (ballx3 <= 0) 
+        {
+             ballx3Speed = 6;
+        }
+          //when ball hits the bat
+           if(ballx3<=batx+20 &&ballx3>=batx-20 && bally3<=baty+20 && bally3>=baty-20)
+           {
+               
+               gameOver = true;
+               f=new JFrame();
+          JOptionPane.showMessageDialog(f,"Game Over");
+            System.exit(0);
+          return;
+           }
+   
+         
+                                                        //FOURTH BALL
+           
+         //when the ball hits on the top and bottom border
+          if (bally4 >= 570 && bally4 <= 800 ) 
+          {
+            bally4Speed = -5;   
+          }
+         //when the ball hits the top border
+        if (bally4 <= 0) 
+        {
+            bally4Speed = 8;
+        }
+         //when the ball hits the right border
+        if (ballx4 >= 775) 
+        {
+            ballx4Speed = -5;
+        }
+        //when the ball hits the left border
+        if (ballx4 <= 0) 
+        {
+             ballx4Speed = 6;
+        }
+          //when ball hits the bat
+           if(ballx4<=batx+20 &&ballx4>=batx-20 && bally4<=baty+20 && bally4>=baty-20)
+           {
+               
+               gameOver = true;
+               f=new JFrame();
+          JOptionPane.showMessageDialog(f,"Game Over");
+            System.exit(0);
+          return;
+           }
+           
+           
+           
+                                                        //FIFTH BALL
+           
+         //when the ball hits on the top and bottom border
+          if (bally5 >= 570 && bally5 <= 800 ) 
+          {
+            bally5Speed = -6;   
+          }
+         //when the ball hits the top border
+        if (bally5 <= 0) 
+        {
+            bally5Speed = 4;
+        }
+         //when the ball hits the right border
+        if (ballx5 >= 775) 
+        {
+            ballx5Speed = -5;
+        }
+        //when the ball hits the left border
+        if (ballx5 <= 0) 
+        {
+             ballx5Speed = 8;
+        }
+          //when ball hits the bat
+           if(ballx5<=batx+20 &&ballx5>=batx-20 && bally5<=baty+20 && bally5>=baty-20)
+           {
+               
+               gameOver = true;
+               f=new JFrame();
+          JOptionPane.showMessageDialog(f,"Game Over");
+            System.exit(0);
+          return;
+           }
+           
+        repaint();
+    }
+
+       
+    }
+
